@@ -1315,6 +1315,7 @@ def map_read(
     strand = '+' if alignment.strand == 1 else '-'
     num_match = alignment.mlen
     num_ins, num_del, num_aligned = 0, 0, 0
+    cigar = alignment.cigar
     for op_len, op in alignment.cigar:
         if op == 1: num_ins += op_len
         elif op in (2,3): num_del += op_len
@@ -1336,7 +1337,7 @@ def map_read(
     align_info = th.alignInfo(
         seq_data.id.decode(), bc_subgrp, num_start_clipped_bases,
         num_end_clipped_bases, num_ins, num_del, num_match,
-        num_aligned - num_match)
+        num_aligned - num_match, cigar)
 
     # extract genome sequence from mappy aligner
     # expand sequence to get model levels for all sites (need to handle new
