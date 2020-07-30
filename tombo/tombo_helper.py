@@ -109,7 +109,7 @@ def adaptive_banded_forward_pass(*args, **kwargs):
 class alignInfo(namedtuple(
         'alignInfo',
         ('ID', 'Subgroup', 'ClipStart', 'ClipEnd',
-         'Insertions', 'Deletions', 'Matches', 'Mismatches'))):
+         'Insertions', 'Deletions', 'Matches', 'Mismatches', 'cigar'))):
     """Information from genomic read alignment
 
     Args:
@@ -121,6 +121,7 @@ class alignInfo(namedtuple(
         Deletions (int): number of delected bases in alignment
         Matches (int): number of matched bases in alignment
         Mismatches (int): number of mis-matched bases in alignment
+        cigar (str): alignment cigar string
     """
 
 # TODO convert rna to rev_sig
@@ -2430,6 +2431,8 @@ def write_new_fast5_group(
                 'num_matches'] = rsqgl_res.align_info.Matches
             corr_alignment.attrs[
                 'num_mismatches'] = rsqgl_res.align_info.Mismatches
+            corr_alignment.attrs[
+                'cigar'] = rsqgl_res.align_info.cigar
 
         if alignVals is not None:
             corr_alignment.create_dataset(
